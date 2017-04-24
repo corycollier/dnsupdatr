@@ -1,5 +1,7 @@
 # DnsUpdatr
 
+[![Build Status](https://travis-ci.org/corycollier/dnsupdatr.svg?branch=master)](https://travis-ci.org/corycollier/dnsupdatr)
+
 This code serves as a way to allow for dynamic dns updating.
 
 ## Usage
