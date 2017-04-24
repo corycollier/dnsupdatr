@@ -11,7 +11,7 @@ class AdapterFactory
         $map = $this->getTypeMap();
 
         if (! array_key_exists($type, $map)) {
-            throw new Exception(sprintf(self::ERR_INVALID_TYPE), $type);
+            throw new Exception(sprintf(self::ERR_INVALID_TYPE, $type));
         }
 
         return new $map[$type]($options);
