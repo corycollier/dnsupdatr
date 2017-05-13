@@ -117,6 +117,5 @@ class Updater
     {
         $adapter = $this->getAdapter();
         $adapter->update($name, $domain, $ip);
-
     }
 }
