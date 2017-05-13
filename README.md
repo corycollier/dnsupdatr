@@ -23,8 +23,10 @@ $updater = new Updater([
     ]
 ]);
 
-if ($ip) {
-    $updater->init();
-    $updater->update('testing', 'example.com', $ip);
-}
+$updater->init();
+$updater->update('testing', 'example.com', $ip);
+```
+Using crontab, an entry to check every 5 minutes for the IP address, and update if necessary might be
+```sh
+*/5 * * * * /usr/local/bin/php /path/to/sample.php > /dev/null 2>&1
 ```

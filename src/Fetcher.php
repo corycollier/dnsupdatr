@@ -9,6 +9,11 @@ class Fetcher
 {
     const API_URI = 'http://ipv4bot.whatismyipaddress.com';
 
+    /**
+     * Gets the IP address for this machine.
+     *
+     * @return string The IPv4 address for this machine.
+     */
     public function getIpAddress()
     {
         $client = $this->getClient();
@@ -20,6 +25,11 @@ class Fetcher
         }
     }
 
+    /**
+     * Gets a new GuzzleHttp\Client.
+     *
+     * @return GuzzleHttp\Client Used for making requests.
+     */
     protected function getClient()
     {
         return new Client();
