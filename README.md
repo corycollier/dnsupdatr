@@ -23,5 +23,8 @@ $updater = new Updater([
     ]
 ]);
 
-$updater->init();
-$updater->update('testing', 'example.com', $ip);
+if ($ip) {
+    $updater->init();
+    $updater->update('testing', 'example.com', $ip);
+}
+```
