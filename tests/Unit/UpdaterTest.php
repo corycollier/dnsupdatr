@@ -28,7 +28,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->getMockBuilder('\DnsUpdatr\Updater\AdapterInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['update'])
+            ->setMethods(['update', 'create'])
             ->getMock();
 
         $factory->expects($this->once())
@@ -64,7 +64,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->getMockBuilder('\DnsUpdatr\Updater\AdapterInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['update'])
+            ->setMethods(['update', 'create'])
             ->getMock();
 
         $adapter->expects($this->once())

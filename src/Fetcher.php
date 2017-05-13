@@ -2,36 +2,121 @@
 
 namespace DnsUpdatr;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\TransferException;
+
+use DnsUpdatr\Fetcher\AdapterInterface;
+use DnsUpdatr\Fetcher\AdapterFactory;
 
 class Fetcher
 {
-    const API_URI = 'http://ipv4bot.whatismyipaddress.com';
+    /**
+     * @var AdapterInterface
+     */
+    protected $adapter;
 
     /**
-     * Gets the IP address for this machine.
-     *
-     * @return string The IPv4 address for this machine.
+     * @var AdapterFactory
      */
-    public function getIpAddress()
+    protected $factory;
+
+    /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * Constructor.
+     *
+     * @param array $options Options to use for the factory and adapters.
+     */
+    public function __construct($options = [])
     {
-        $client = $this->getClient();
-        try {
-            $response = $client->request('GET', self::API_URI);
-            return (string)$response->getBody();
-        } catch (TransferException $exception) {
-            error_log($exception->getMessage());
-        }
+        $defaults = $this->getDefaultConstructorOptions();
+        $options = array_merge($defaults, $options);
+        $this->options = $options;
+        $this->factory = new AdapterFactory();
     }
 
     /**
-     * Gets a new GuzzleHttp\Client.
+     * Init hook.
      *
-     * @return GuzzleHttp\Client Used for making requests.
+     * @return Updater Returns $this, for possible object-chaining.
      */
-    protected function getClient()
+    public function init()
     {
-        return new Client();
+        $options = $this->getOptions();
+        $factory = $this->getFactory();
+        $adapter = $factory->factory($options['adapter'], $options['options']);
+
+        return $this->setAdapter($adapter);
+    }
+
+    /**
+     * Gets default constructor options, to ensure a baseline of options are set.
+     *
+     * @return array Default option key/values.
+     */
+    protected function getDefaultConstructorOptions()
+    {
+        return [
+            'adapter' => 'whatismyipaddress',
+            'options' => [],
+        ];
+    }
+
+    /**
+     * Getter for the options property
+     * @return array The options for the Updater.
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Getter for the adapter property.
+     *
+     * @return AdapterFactory The factory to use for creating adapters.
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
+
+    /**
+     * Getter for the adapter property.
+     *
+     * @return AdapterInterface The adapter to use for operations.
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * Setter for the adapter property.
+     *
+     * @param AdapterInterface $adapter The adapter to use for operations.
+     *
+     * @return Updater Returns $this, for possible object-chaining.
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+        return $this;
+    }
+
+    /**
+     * Main usage method. fetches current IP.
+     *
+     * @param  string $name   The name to update.
+     * @param  string $domain The domain name to update (example.com).
+     * @param  string $ip     The IPv4 value to update to.
+     *
+     * @return Updater Returns $this, for possible object-chaining.
+     */
+    public function fetch()
+    {
+        $adapter = $this->getAdapter();
+        $adapter->getIpAddress();
     }
 }
