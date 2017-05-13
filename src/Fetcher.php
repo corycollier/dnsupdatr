@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\TransferException;
 
 class Fetcher
 {
-    const API_URI = 'ipv4bot.whatismyipaddress.com';
+    const API_URI = 'http://ipv4bot.whatismyipaddress.com';
 
     public function getIpAddress()
     {
